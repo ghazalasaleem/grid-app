@@ -1,0 +1,26 @@
+{
+    "propTable":[{
+        "name": "Name",        
+        "sort": true,
+        "draggable": false,
+        "key": "h1"
+    },
+    {
+        "name": "Type",
+        "sort": true,
+        "draggable": false,
+        "key": "h2"
+    },
+    {
+        "name": "Value",
+        "sort": false,
+        "draggable": false,
+        "key": "h3"
+    },
+    {
+        "name":"Action",
+        "sort": false,
+        "draggable": false,
+        "key": "h6"
+    }]
+}
