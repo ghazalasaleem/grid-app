@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 const GridToolbar = props =>{
 
-    const { showSort, showHide, headers, handleHideColmns, selectedList} = props;
+    const { showSort, showHide, headers, handleHideColmns, selectedList, showAddnew, handleAdd} = props;
     // const [showColsList, setShowColsList] = useState(null);
 
     // useEffect(() =>{
@@ -34,6 +34,11 @@ const GridToolbar = props =>{
                     return (<option  key={header.key} value={header.name.toLowerCase()}>{header.name}</option>);
                 })}
             </select>
+            </div>
+        )}
+        {showAddnew && (
+            <div className="inline vertical-bottom">
+            <button type="button" className="btn-sm btn-secondary" onClick={e=>handleAdd(e)}>Add +</button>
             </div>
         )}
         {/* {showHide && (

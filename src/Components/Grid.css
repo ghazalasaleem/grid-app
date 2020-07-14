@@ -31,7 +31,7 @@ input, select {
     border: 1px solid #edf3f5;
     color: #5c6475;
 }
-input:focus, select:focus{
+input:focus, select:focus, input:hover, select:hover{
     border: 1px solid darkgray;
     border-radius: 4px;
     outline: none;
@@ -75,3 +75,15 @@ div[data-title="action"]{
 .btn.dropdown-toggle:focus {
     outline: none !important;
 }
+.inline{
+    display: inline;
+}
+.vertical-bottom{
+    vertical-align: bottom;
+}
+/* button{
+    width: 72px;
+    height: 30px;
+    border: 1px solid grey;
+    border-radius: 4px;
+} */

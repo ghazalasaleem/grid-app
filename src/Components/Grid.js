@@ -7,7 +7,7 @@ import AppModal from './AppModal';
 
 const Grid = props => {
 
-    const {headers, tableData} = props;
+    const {headers, tableData, newRow} = props;
     const [contentHeader, setContentHeader] = useState(headers);
     const [content, setContent] = useState([]);
     const [sortCol, setSortCol] = useState("");
@@ -122,8 +122,12 @@ const Grid = props => {
             setModalData(rowName);
         }
     };
-
-    const handleClick = e=>{
+    const handleAddRow = e =>{
+        let dataList = [...content];
+        dataList.splice(0,0,newRow);
+        setContent([...sortContentList(dataList, sortCol)]);
+    };
+    const handleShowCols = e=>{
         const options = e.currentTarget.options;
         let value = [];
         for (var i = 0, l = options.length; i < l; i++) {
@@ -139,7 +143,7 @@ const Grid = props => {
         
         {headers && headers.length && (
             <React.Fragment>
-            <GridToolbar showSort={false} showHide={true} headers={headers} handleHideColmns={handleClick} selectedList={customCols}></GridToolbar>
+            <GridToolbar showAddnew={true} showSort={false} showHide={true} headers={headers} handleHideColmns={handleShowCols} selectedList={customCols} handleAdd={handleAddRow}></GridToolbar>
             <div className="table-header table-row">
                 {contentHeader.map(header =>{
                     const rowClass = "table-cell"+ (header.sort?" cursor-pointer":"");
