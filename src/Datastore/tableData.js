@@ -106,3 +106,146 @@ const PropTable =[[
 ];
 
 export default PropTable;
+
+// const PropTable =[
+//     {
+//         "id": 40885854,
+//         "name": "password",
+//         "value": null,
+//         "variableArray": null,
+//         "isNull": true,
+//         "isArray": false,
+//         "isSession": false,
+//         "isPublic": false,
+//         "description": "something",
+//         "type": "str",
+//         "CLASS_META_KEY": "com.ispring.core.node.VariableString"
+//     },
+//     {
+//         "id": 67385863,
+//         "name": "am",
+//         "value": "",
+//         "variableArray": null,
+//         "isNull": false,
+//         "isArray": false,
+//         "isSession": false,
+//         "isPublic": false,
+//         "description": null,
+//         "type": "str",
+//         "CLASS_META_KEY": "com.ispring.core.node.VariableString"
+//     },
+//     {
+//         "id": 94985855,
+//         "name": "expirationdate",
+//         "value": null,
+//         "variableArray": null,
+//         "isNull": true,
+//         "isArray": false,
+//         "isSession": false,
+//         "isPublic": false,
+//         "description": null,
+//         "type": "str",
+//         "CLASS_META_KEY": "com.ispring.core.node.VariableTimeStamp"
+//     },
+//     {
+//         "id": 45285851,
+//         "name": "amex",
+//         "type": 2048,
+//         "isNull": false,
+//         "isArray": true,
+//         "isSession": false,
+//         "isPublic": true,
+//         "metaDataID": "D351F56B_0C1C_4998_969C_0CF2E34A3693",
+//         "metaData": null,
+//         "description": null,
+//         "variableArray": {
+//             "id": 0,
+//             "name": null,
+//             "value": [],
+//             "variableArray": null,
+//             "isNull": false,
+//             "isArray": false,
+//             "isSession": false,
+//             "isPublic": false,
+//             "description": null,
+//             "type": "usertype"
+//         },
+//         "value": [{
+//             "id": 67385863,
+//             "name": "am",
+//             "value": "",
+//             "variableArray": null,
+//             "isNull": false,
+//             "isArray": false,
+//             "isSession": false,
+//             "isPublic": false,
+//             "description": null,
+//             "type": "str",
+//             "CLASS_META_KEY": "com.ispring.core.node.VariableString"
+//         }, {
+//             "id": 46385853,
+//             "name": "email",
+//             "value": null,
+//             "variableArray": null,
+//             "isNull": true,
+//             "isArray": false,
+//             "isSession": false,
+//             "isPublic": false,
+//             "description": null,
+//             "type": "str",
+//             "CLASS_META_KEY": "com.ispring.core.node.VariableString"
+//         }, {
+//             "id": 40885854,
+//             "name": "password",
+//             "value": null,
+//             "variableArray": null,
+//             "isNull": true,
+//             "isArray": false,
+//             "isSession": false,
+//             "isPublic": false,
+//             "description": null,
+//             "type": "str",
+//             "CLASS_META_KEY": "com.ispring.core.node.VariableString"
+//         }, {
+//             "id": 94985855,
+//             "name": "expirationdate",
+//             "value": null,
+//             "variableArray": null,
+//             "isNull": true,
+//             "isArray": false,
+//             "isSession": false,
+//             "isPublic": false,
+//             "description": null,
+//             "type": "str",
+//             "CLASS_META_KEY": "com.ispring.core.node.VariableTimeStamp"
+//         }],
+//         "CLASS_META_KEY": "com.ispring.core.node.VariableUserType"
+//     },
+//     {
+//         "id": 98685850,
+//         "name": "z1",
+//         "value": "",
+//         "variableArray": null,
+//         "isNull": false,
+//         "isArray": false,
+//         "isSession": false,
+//         "isPublic": false,
+//         "description": null,
+//         "type": "str",
+//         "CLASS_META_KEY": "com.ispring.core.node.VariableString"
+//     },
+//     {
+//         "id": 46385853,
+//         "name": "email",
+//         "value": null,
+//         "variableArray": null,
+//         "isNull": true,
+//         "isArray": false,
+//         "isSession": false,
+//         "isPublic": false,
+//         "description": null,
+//         "type": "str",
+//         "CLASS_META_KEY": "com.ispring.core.node.VariableString"
+//     }
+// ];
+// export default PropTable;
