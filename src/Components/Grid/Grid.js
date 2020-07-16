@@ -33,7 +33,7 @@ const Grid = props => {
         setHeaderList([...headerL]);
         setRenderList(renderL); 
         setContent([...dataList]);   
-    },[configData]);
+    },[configData, dataList]);
 
     const sortContentList = (list, key) =>{
         return key?(list.sort((a,b) => {

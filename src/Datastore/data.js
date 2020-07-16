@@ -9,7 +9,7 @@ const TableData = [
       id:43,
       variablename: 'Timestamp',
       variabletype: 'string',
-      variablevalue: "a12det54"
+      variablevalue: "21:25:37 GMT+0530"
     },
     {
       id:124,

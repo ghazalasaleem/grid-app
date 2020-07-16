@@ -9,13 +9,13 @@ import GridCell from './GridCell';
      useEffect(()=>{
         setRowData({...data});
         setRowRender([...renderList]);
-     },[]);
+     },[data, renderList]);
 
      return (
         <div className="table-row" key={rowData.id} data-id={rowData.id}>
             {rowRender && rowRender.length && 
                 rowRender.map(renderer =>{
-                    return <GridCell key={renderer.key} id={renderer.key} cell={renderer} value={rowData[renderer.key]}></GridCell>;
+                    return <GridCell key={renderer.key} cellData={renderer} data={rowData}></GridCell>;
                 })
             }
         </div>

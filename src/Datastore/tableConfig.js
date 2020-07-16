@@ -20,9 +20,11 @@ const TableConfig =
         order: 'asc',
       },
       cell: {
-        renderer: function(data){
-            const {name, value, changeHandler} = data;
-        return (<input  value={value} onClick={val => changeHandler(val)}/>)
+        renderer: (args)=>{
+            const {key, data} = args;
+            const {id, changeHandler} = data;
+            const value = data[key];
+        return (<input data-id={id}  value={value} onClick={val => changeHandler({event:val, id:id, key:key})}/>)
         }
       }
     },
@@ -30,7 +32,14 @@ const TableConfig =
         name: 'Value',
         key: 'variablevalue',
         cell: {
+          renderer: (args)=>{
+              const {key, data} = args;
+              const {id, changeHandler} = data;
+              const value = data[key];
+          return (<input data-id={id}  value={value} onClick={val => changeHandler({event:val, id:id, key:key})}/>)
+          }
         }
     }
   ];
+
   export default TableConfig;
