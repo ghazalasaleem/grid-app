@@ -1,7 +1,9 @@
 import React from 'react';
 
 const TableConfig = 
-[
+{
+  rowSelection: true,
+  columns: [
     {
       name: 'Name',
       key: 'variablename',
@@ -40,6 +42,6 @@ const TableConfig =
           }
         }
     }
-  ];
-
-  export default TableConfig;
+  ]
+};
+export default TableConfig;

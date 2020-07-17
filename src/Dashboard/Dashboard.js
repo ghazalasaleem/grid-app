@@ -12,7 +12,7 @@ const Dashboard = () => {
   useEffect(()=>{
     const list = [];
     TableData.map((row)=>{
-      list.push(Object.assign({changeHandler: handleChange}, row));
+      list.push({...row, changeHandler: handleChange});
     });
 
     setGridData([...list]);
@@ -26,8 +26,9 @@ const Dashboard = () => {
     dataList.map(data=>{
       if(data.id === id){
         data[key] =val;
-      }});
-      setGridData([...dataList]);
+      }
+    });
+    setGridData([...dataList]);
   }
 
   return (
