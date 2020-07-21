@@ -12,7 +12,7 @@ const Grid = props => {
     const [content, setContent] = useState([]);
     const [sortCol, setSortCol] = useState("");
     const [sortOrderAsc, setSortOrderAsc] = useState(true);
-    const [modalData, setModalData] = useState(null)
+    const [modalData, setModalData] = useState(null);
     const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
     const[customCols, setCustomCols] = useState([]);
 

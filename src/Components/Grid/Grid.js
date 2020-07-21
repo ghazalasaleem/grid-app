@@ -2,24 +2,26 @@ import React, { useEffect, useState } from 'react';
 import './Grid.css'
 import GridRow from './GridRow';
 import {FiArrowDown, FiArrowUp} from 'react-icons/fi';
-import AppModal from './../AppModal';
-import { render } from '@testing-library/react';
+// import AppModal from './../AppModal';
+// import { render } from '@testing-library/react';
 
 const Grid = props => {
 
     const {configData, dataList} = props;
+    const {selectCallback} = configData;
     const [renderList, setRenderList] = useState([]);
     const [headerList, setHeaderList] = useState([]);
     const [content, setContent] = useState([]);
     const [sortCol, setSortCol] = useState("");
     const [sortOrderAsc, setSortOrderAsc] = useState(true);
-    const [modalData, setModalData] = useState(null)
-    const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
     const [rowSelection, setRowSelection] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
+    const [selectedRows, setSelectedRows]  = useState([]);
+ 
 
     useEffect(()=>{
         let headerL = [], renderL = [];
+        if(configData.columns){
         configData.columns.map((row)=>{
             headerL.push({
                 name: row.name,
@@ -32,6 +34,7 @@ const Grid = props => {
                 cell: row.cell
             });
         });
+    }
         let dl = [...dataList];
         dl.map(obj=>{obj.selected = false});
         setHeaderList([...headerL]);
@@ -48,6 +51,14 @@ const Grid = props => {
         setContent([...dataL]);
     },[selectAll]);
 
+    useEffect(()=>{
+        if(selectCallback)    selectCallback(selectedRows);
+    },[selectedRows]);
+
+    useEffect(()=>{
+        setSelectedRows(getSelectedRows());
+    },[content]);
+
     const handleRowSelection = (e, id) =>{
         if(e && e.currentTarget){
             const selectAllFlag = e.currentTarget.checked;
@@ -59,7 +70,7 @@ const Grid = props => {
             setContent([...dataL]);
             }
             else{
-                setSelectAll(selectAllFlag)
+                setSelectAll(selectAllFlag);
             }
         }
     };
@@ -97,6 +108,15 @@ const Grid = props => {
         }
     };
 
+    const getSelectedRows = () =>{
+        let selectedList = [];
+        content.map(data=>{
+            if(data.selected) selectedList.push(JSON.parse(JSON.stringify(data)));
+        });
+
+        return selectedList;
+    };
+
     return(
         <React.Fragment>
             <div className="large-table table-container">
@@ -112,7 +132,7 @@ const Grid = props => {
                     {headerList.map(header =>{
                         const rowClass = "table-cell"+ (header.sort && header.sort.active?" cursor-pointer":" events-none");
                         const cellDom = header.show?
-                        (<div className={rowClass} key={header.key} data-title={header.name.toLowerCase()} onClick={e=>handleSort(e, header.key)}>{header.name}
+                        (<div className={rowClass} key={header.key} data-title={header.key} onClick={e=>handleSort(e, header.key)}>{header.name}
                         {(header.sort && header.sort.active)?<div className="pad-l5 vertical-middle">{(sortCol === header.key && !sortOrderAsc)?<FiArrowUp/>:<FiArrowDown/>}</div>:''}</div>
                     ):"";
                         return cellDom;

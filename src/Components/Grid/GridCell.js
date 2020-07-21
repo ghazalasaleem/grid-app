@@ -12,7 +12,7 @@ const GridCell = props =>{
     else{
         cellDOM=<label>{value}</label>;
     }
-        return (<div className="table-cell" key={id} data-id={id} data-key={key}>{cellDOM}</div>);
+        return (<div className="table-cell" key={id} data-id={id} data-title={key}>{cellDOM}</div>);
 };
 
 export default GridCell;

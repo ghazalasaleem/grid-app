@@ -74,9 +74,6 @@ width: 50%;
 label{
     margin-right: 7px;
 }
-div[data-title="action"]{
-    width: 15%;
-}
 
 .bootstrap-select .bs-ok-default::after {
     width: 0.3em;
