@@ -1,15 +1,10 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import GridCell from './GridCell';
 
  const GridRow = props =>{
      const {data, renderList, rowSelection, handleRowSelection} = props;
      const [rowData, setRowData] = useState([]);
      const [rowRender, setRowRender] = useState([]);
-
-    //  useEffect(()=>{
-    //     setRowData({...data});
-    //     setRowRender([...renderList]);
-    //  },[data, renderList]);
 
     useEffect(()=>{
         setRowData({...data});

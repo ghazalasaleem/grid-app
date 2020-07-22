@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../Components/Header';
-import Grid from '../Components/Grid/Grid';
-import TableConfig from '../Datastore/tableConfig';
-import TableData from '../Datastore/data';
+import Header from '../Header/Header';
+import Grid from '../Grid/Grid';
+import TableConfig from '../../Datastore/tableConfig';
+import TableData from '../../Datastore/data';
 import './dashboard.css';
-import AppModal from '../Components/AppModal';
-// import NewRow from '../Datastore/newRow';
+import AppModal from '../Modal/AppModal';
 
 const Dashboard = () => {
 
@@ -17,7 +16,7 @@ const Dashboard = () => {
   useEffect(()=>{
     const list = [];
     TableData.map((row)=>{
-      list.push({...row, changeHandler: handleChange.bind(this),
+      list.push({...row, changeHandler: handleChange,
         handleRowDelete: handleRowDelete,
         handleRowCopy: handleRowCopy,
         handleRowInfo: handleRowInfo});
@@ -26,7 +25,7 @@ const Dashboard = () => {
     setGridData([...list]);
     // setTableCon(Object.assign({...TableConfig},{selectCallback: handleSelect}));
     setTableCon({...TableConfig});
-  },[TableConfig, TableData]);
+  },[TableData]);
 
   const handleRowDelete = e =>{
     const index = e.currentTarget?e.currentTarget.getAttribute('data-id'):null;
