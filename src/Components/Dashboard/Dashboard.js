@@ -42,8 +42,8 @@ const Dashboard = () => {
     const {id} = props.data;
     return (<React.Fragment>
         <Delete id={id} onClick={handleRowDelete}></Delete>
-        <Copy id={id} onClick={(e) =>handleRowCopy(e)}></Copy>
-        <Info id={id} onClick={(e)=>handleRowInfo(e)}></Info>
+        <Copy id={id} onClick={handleRowCopy}></Copy>
+        <Info id={id} onClick={handleRowInfo}></Info>
       </React.Fragment>);
   };
 
@@ -99,6 +99,7 @@ const Dashboard = () => {
 
   const handleSelect = args =>{
     console.log(JSON.stringify(args));
+    console.log(JSON.stringify(GridData));
   };
 
 
@@ -107,11 +108,7 @@ const Dashboard = () => {
     <React.Fragment>
       <div className="dashboard">
         <Header></Header>
-       {/*  {
-        GridData && GridData.length && TableCon && TableCon.columns.length && 
-        ( */}
         <Grid configData={TableCon} dataList={GridData} selectCallback= {handleSelect}></Grid>
-         {/* )}    */}
       </div>
     {modalData && isInfoModalVisible && (
       <AppModal data={modalData}></AppModal>   

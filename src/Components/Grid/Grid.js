@@ -7,8 +7,7 @@ import {FiArrowDown, FiArrowUp} from 'react-icons/fi';
 
 const Grid = props => {
 
-    const {configData, dataList} = props;
-    const {selectCallback} = configData;
+    const {configData, dataList, selectCallback} = props;
     const [renderList, setRenderList] = useState([]);
     const [headerList, setHeaderList] = useState([]);
     const [content, setContent] = useState([]);
@@ -52,7 +51,7 @@ const Grid = props => {
     },[selectAll]);
 
     useEffect(()=>{
-        if(selectCallback)    selectCallback(selectedRows);
+        if(selectCallback) selectCallback(selectedRows);
     },[selectedRows]);
 
     useEffect(()=>{
