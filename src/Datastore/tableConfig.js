@@ -1,5 +1,4 @@
 import React from 'react';
-import {RiDeleteBin6Line, RiInformationLine, RiFileCopyLine} from 'react-icons/ri';
 
 const TableConfig = 
 {
@@ -46,25 +45,7 @@ const TableConfig =
     {
       name: 'Action',
       key: 'variableaction',
-      cell: {
-        renderer: (args)=>{
-          const {data} = args;
-          const {id, handleRowDelete, handleRowCopy, handleRowInfo} = data;
-          return (
-            <React.Fragment>
-              <div data-toggle="tooltip" title="Delete" className="pad-l5 vertical-middle cursor-pointer" data-id={id} onClick={e => handleRowDelete(e)}> 
-                <RiDeleteBin6Line/>
-              </div>
-              <div  data-toggle="tooltip" title="Copy" className="pad-l5 vertical-middle cursor-pointer" data-id={id} onClick={e => handleRowCopy(e)}>
-                <RiFileCopyLine/>
-              </div>
-              <div  data-toggle="tooltip" title="Info" className="pad-l5 vertical-middle cursor-pointer" data-id={id} onClick={e => handleRowInfo(e)}>
-                <RiInformationLine/>
-              </div>
-            </React.Fragment>
-          );
-          }
-      }
+      cell: {}
     }
   ]
 };

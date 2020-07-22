@@ -5,6 +5,9 @@ import TableConfig from '../../Datastore/tableConfig';
 import TableData from '../../Datastore/data';
 import './dashboard.css';
 import AppModal from '../Modal/AppModal';
+import Delete from '../Action/Delete';
+import Info from '../Action/Info';
+import Copy from '../Action/Copy';
 
 const Dashboard = () => {
 
@@ -14,18 +17,35 @@ const Dashboard = () => {
   const [modalData, setModalData] = useState(null);
 
   useEffect(()=>{
-    const list = [];
-    TableData.map((row)=>{
-      list.push({...row, changeHandler: handleChange,
-        handleRowDelete: handleRowDelete,
-        handleRowCopy: handleRowCopy,
-        handleRowInfo: handleRowInfo});
+    const list = {...TableConfig};
+
+    list.columns.map((row)=>{
+      if(row.key === 'variableaction'){
+        row.cell = {
+          renderer: actionRender
+        }
+      }
     });
 
-    setGridData([...list]);
+    // TableData.map((row)=>{
+    //   list.push({...row, changeHandler: handleChange,
+    //     handleRowDelete: handleRowDelete,
+    //     handleRowCopy: handleRowCopy,
+    //     handleRowInfo: handleRowInfo});
+    // });
     // setTableCon(Object.assign({...TableConfig},{selectCallback: handleSelect}));
+    setGridData([...TableData]);
     setTableCon({...TableConfig});
-  },[TableData]);
+  },[TableData, TableConfig]);
+
+  const actionRender = (props) =>{
+    const {id} = props.data;
+    return (<React.Fragment>
+        <Delete id={id} onClick={handleRowDelete}></Delete>
+        <Copy id={id} onClick={(e) =>handleRowCopy(e)}></Copy>
+        <Info id={id} onClick={(e)=>handleRowInfo(e)}></Info>
+      </React.Fragment>);
+  };
 
   const handleRowDelete = e =>{
     const index = e.currentTarget?e.currentTarget.getAttribute('data-id'):null;
@@ -87,7 +107,11 @@ const Dashboard = () => {
     <React.Fragment>
       <div className="dashboard">
         <Header></Header>
-        <Grid configData={TableCon} dataList={GridData} selectCallback= {handleSelect}></Grid>      
+       {/*  {
+        GridData && GridData.length && TableCon && TableCon.columns.length && 
+        ( */}
+        <Grid configData={TableCon} dataList={GridData} selectCallback= {handleSelect}></Grid>
+         {/* )}    */}
       </div>
     {modalData && isInfoModalVisible && (
       <AppModal data={modalData}></AppModal>   
