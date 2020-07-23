@@ -8,7 +8,7 @@ import GridCell from './GridCell';
 
     useEffect(()=>{
         setRowData({...data});
-        setRowRender([...renderList]);
+        setRowRender([...renderList]);//remove
      },[data, renderList]);
 
      return (

@@ -7,44 +7,33 @@ const TableConfig =
     {
       name: 'Name',
       key: 'variablename',
+      type: 'textBox',
       sort: {
         active: true,
         order: 'asc',
       },
-      cell: {
-      }
+      cell: {}
     },
     {
       name: 'Type',
       key: 'variabletype',
+      type: 'textBox',
       sort: {
         active: true,
         order: 'asc',
       },
-      cell: {
-        renderer: (args)=>{
-            const {key, data} = args;
-            const {id, changeHandler} = data;
-            const value = data[key];
-        return (<input data-id={id}  value={value} onChange={val => changeHandler({event:val, id:id, key:key})}/>)
-        }
-      }
+      cell: {}
     },
     {
         name: 'Value',
         key: 'variablevalue',
-        cell: {
-          renderer: (args)=>{
-              const {key, data} = args;
-              const {id, changeHandler} = data;
-              const value = data[key];
-          return (<input data-id={id}  value={value} onChange={val => changeHandler({event:val, id:id, key:key})}/>)
-          }
-        }
+        type: 'textBox',
+        cell: {}
     },
     {
       name: 'Action',
       key: 'variableaction',
+      type: 'action',
       cell: {}
     }
   ]

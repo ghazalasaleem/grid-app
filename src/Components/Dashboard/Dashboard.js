@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Header from '../Header/Header';
 import Grid from '../Grid/Grid';
 import TableConfig from '../../Datastore/tableConfig';
@@ -16,27 +16,30 @@ const Dashboard = () => {
   const [isInfoModalVisible, setIsInfoModalVisible] = useState([]);
   const [modalData, setModalData] = useState(null);
 
+  const data = useRef([]);
+
   useEffect(()=>{
     const list = {...TableConfig};
 
     list.columns.map((row)=>{
-      if(row.key === 'variableaction'){
+      if(row.type === 'action'){
         row.cell = {
           renderer: actionRender
         }
       }
+      else if(row.type === 'textBox'){
+        row.cell = {
+          renderer: textBoxRenderer
+        }
+      }
     });
-
-    // TableData.map((row)=>{
-    //   list.push({...row, changeHandler: handleChange,
-    //     handleRowDelete: handleRowDelete,
-    //     handleRowCopy: handleRowCopy,
-    //     handleRowInfo: handleRowInfo});
-    // });
-    // setTableCon(Object.assign({...TableConfig},{selectCallback: handleSelect}));
     setGridData([...TableData]);
     setTableCon({...TableConfig});
   },[TableData, TableConfig]);
+
+  useEffect(()=>{
+    data.current = [...GridData];
+  },[GridData]);
 
   const actionRender = (props) =>{
     const {id} = props.data;
@@ -47,48 +50,61 @@ const Dashboard = () => {
       </React.Fragment>);
   };
 
-  const handleRowDelete = e =>{
-    const index = e.currentTarget?e.currentTarget.getAttribute('data-id'):null;
-        if(index >= 0){
-            let tableContent = [...GridData];
-            tableContent.splice(index, 1);
-            setGridData([...tableContent]); 
-        } 
+  const textBoxRenderer = (props) =>{
+    const key = props.key;
+    const {id} = props.data;
+    const value = props.data[key];
+
+    return (<input data-id={id} value={value} onChange={val => handleChange({event:val, id:id, key:key})}/>)
   };
+
+  const handleRowDelete =  e =>{
+    let id = e.currentTarget?e.currentTarget.getAttribute('data-id'):null;
+    if(id && parseInt(id) >= 0){
+      id = parseInt(id);
+      let tableContent = [];
+      data.current.map((row) =>{
+        if(row.id != id) tableContent.push({...row});
+      });
+      setGridData([...tableContent]); 
+    } 
+  };
+
   const handleRowCopy = e =>{
-    let index = e.currentTarget?e.currentTarget.getAttribute('data-id'):null;
-        if(index && parseInt(index) >= 0){
-            index = parseInt(index);
-            let data =[...GridData];
-            if(data){
-            let copyRow =JSON.parse(JSON.stringify([index]));
-            copyRow.map((prop) =>{
-                if(prop.name === "name") {
-                    prop.key = "CC"+prop.key;
-                    prop.value = "Copy of "+prop.value;
-                }
-            })
-            let tableContent = [...GridData];
-            tableContent.splice(++index,0,copyRow);
-            setGridData([...tableContent]);
-          }
+    let id = e.currentTarget?e.currentTarget.getAttribute('data-id'):null;
+    if(id && parseInt(id) >= 0 && data.current){
+      id = parseInt(id);
+      let copyRow ={};
+      let dataList = [...data.current];
+      let index = 0;
+
+      data.current.map((row, ind)=>{
+        if(row.id == id){
+          index = ind;
+          copyRow = Object.assign({...row},{
+            id: Math.floor(Math.random()*row.id),
+            variablename: row.variablename +'(1)'});
         }
+      });
+      dataList.splice(++index, 0, copyRow);
+      setGridData([...dataList]);          
+    }
   };
   
   const handleRowInfo = e =>{
-    let index = e.currentTarget?e.currentTarget.getAttribute('data-id'):null;
-    if(index && parseInt(index) >= 0) {
-        index = parseInt(index);
-        let rowName =[...GridData][index].find(prop => prop.name === "name").value;
-        setIsInfoModalVisible(true);
-        setModalData(rowName);
+    let id = e.currentTarget?e.currentTarget.getAttribute('data-id'):null;
+    if(id && parseInt(id) >= 0) {
+      id = parseInt(id);
+      let rowName = data.current.find(prop => prop.id === id).variablename;
+      setIsInfoModalVisible(true);
+      setModalData(rowName);
     }
   };
   
   const handleChange = args =>{
     const {id, key, event} = args;
     const val = event.currentTarget.value;
-    let dataList = [...GridData];
+    let dataList = [...data.current];
     dataList.map(data=>{
       if(data.id === id){
         data[key] =val;
