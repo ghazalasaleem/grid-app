@@ -13,7 +13,7 @@ const AppModal = props =>{
     <Modal.Header closeButton>
       <Modal.Title>Variable Info</Modal.Title>
     </Modal.Header>
-    <Modal.Body>{data} is not used.</Modal.Body>
+    <Modal.Body>{data.variablename} is not used.</Modal.Body>
     <Modal.Footer>
       <Button variant="secondary" onClick={handleClose}>
         Close

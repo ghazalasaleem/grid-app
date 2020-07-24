@@ -2,28 +2,22 @@ import React, { useState, useEffect } from 'react';
 import GridCell from './GridCell';
 
  const GridRow = props =>{
-     const {data, renderList, rowSelection, handleRowSelection} = props;
-     const [rowData, setRowData] = useState([]);
-     const [rowRender, setRowRender] = useState([]);
 
-    useEffect(()=>{
-        setRowData({...data});
-        setRowRender([...renderList]);//remove
-     },[data, renderList]);
+    const {data, renderList, rowSelection, handleRowSelection} = props;
 
-     return (
-        <div className={rowData.selected?"table-row selected":"table-row"} key={rowData.id} data-id={rowData.id}>
+    return (
+        <div className={data.selected?"table-row selected":"table-row"} key={data.id} data-id={data.id}>
             {rowSelection && 
-            (<div data-id={rowData.id} className="table-cell chkCol">
-                <input type="checkbox" checked={rowData.selected} onChange={e=>handleRowSelection(e,rowData.id)}/>
+            (<div data-id={data.id} className="table-cell chkCol">
+                <input type="checkbox" checked={data.selected} onChange={e=>handleRowSelection(e,data.id)}/>
             </div> )}
                       
-            {rowRender && rowRender.length && 
-                rowRender.map(renderer =>{
-                    return <GridCell key={renderer.key} cellData={renderer} data={rowData}></GridCell>;
+            {renderList && renderList.length && 
+                renderList.map(renderer =>{
+                    return <GridCell key={data.id+renderer.key} cellData={renderer} data={data}></GridCell>;
                 })
             }
         </div>
-     );
+    );
  }
  export default GridRow;

@@ -3,11 +3,11 @@ import {RiFileCopyLine} from 'react-icons/ri';
 
 const Copy = props =>{
 
-    const {id, onClick} = props;
+    const {data, onClick} = props;
 
     return (<div  data-toggle="tooltip" title="Copy"
         className="pad-l5 vertical-middle cursor-pointer"
-        data-id={id} onClick={e => onClick(e, id)}>
+        data-id={data.id} onClick={e => onClick({e,data})}>
         <RiFileCopyLine/>
     </div>);
 };

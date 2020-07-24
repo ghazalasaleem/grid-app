@@ -32,6 +32,11 @@
 .table-cell.chkCol{
     width: 4%;
 }
+
+.chkCol input {
+    cursor: pointer;
+}
+
 .table-cell > input,  .table-cell > select{
     width: 94%;
     border: 1px solid white;
