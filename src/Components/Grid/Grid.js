@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 import './Grid.css'
 import GridRow from './GridRow';
 import GridHeader from './GridHeader';
 import {HeaderProvider} from './Context/HeaderContext';
 import {TabConfProvider} from './Context/TableConfContext';
 import {TabDataProvider} from './Context/TableDataContext';
+import {SortColProvider, SortOrderAscProvider} from './Context/GridContext';
 
 
 const Grid = props => {
@@ -107,6 +108,8 @@ const Grid = props => {
                 {headerList && headerList.length && (
                 <React.Fragment>
                 <HeaderProvider value={headerList}>
+                <SortColProvider value={sortCol}>
+                <SortOrderAscProvider value={sortOrderAsc}>
                     <div className="table-header table-row">
                         {
                             rowSelection && 
@@ -114,8 +117,10 @@ const Grid = props => {
                                 <input type="checkbox" className="" checked={selectAll} onChange={(e)=>{handleRowSelection(e)}}/>
                             </div> )
                         }
-                        <GridHeader handleSort={handleSort} sortCol-={sortCol} sortOrderAsc={sortOrderAsc}></GridHeader>
+                        <GridHeader handleSort={handleSort}></GridHeader>
                     </div>
+                </SortOrderAscProvider>
+                </SortColProvider>
                 </HeaderProvider>
                 </React.Fragment>
                 )}

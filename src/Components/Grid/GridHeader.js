@@ -1,11 +1,14 @@
 import React, { useContext } from 'react';
 import {FiArrowDown, FiArrowUp} from 'react-icons/fi';
 import HeaderContext from './Context/HeaderContext';
+import {SortColCntxt, SortOrderAscCntxt} from './Context/GridContext';
 
 const GridHeader = props =>{
 
-    const { handleSort, sortCol, sortOrderAsc} = props;
-    const headerList = useContext(HeaderContext)
+    const { handleSort} = props;
+    const headerList = useContext(HeaderContext);
+    const sortCol = useContext(SortColCntxt);
+    const sortOrderAsc = useContext(SortOrderAscCntxt);
     
     return (
         headerList.map(header =>{

@@ -19,7 +19,7 @@ import TabConfContext from './Context/TableConfContext';
             }                      
             {renderList && renderList.length && 
                 renderList.map(renderer =>{
-                    return <GridCell key={data.id+renderer.key} cellData={renderer} data={data}></GridCell>;
+                    return <GridCell key={data.id+renderer.key} rowId={rowId} cellData={renderer}></GridCell>;
                 })
             }
         </div>
