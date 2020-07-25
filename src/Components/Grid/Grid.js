@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import './Grid.css'
 import GridRow from './GridRow';
 import GridHeader from './GridHeader';
-// import AppModal from './../AppModal';
-// import { render } from '@testing-library/react';
+import {HeaderProvider} from './Context/HeaderContext';
+import {TabConfProvider} from './Context/TableConfContext';
+import {TabDataProvider} from './Context/TableDataContext';
+
 
 const Grid = props => {
 
@@ -17,7 +19,6 @@ const Grid = props => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows]  = useState([]);
  
-
     useEffect(()=>{
         let headerL = [], renderL = [];
         if(configData.columns){
@@ -105,28 +106,36 @@ const Grid = props => {
             <div className="large-table table-container">
                 {headerList && headerList.length && (
                 <React.Fragment>
-                <div className="table-header table-row">
-                    {
-                        rowSelection && 
-                        (<div className="table-cell chkCol">
-                            <input type="checkbox" className="" checked={selectAll} onChange={(e)=>{handleRowSelection(e)}}/>
-                        </div> )
-                    }
-                    {headerList.map(header =>{
-                        const rowClass = (header.sort && header.sort.active?" cursor-pointer":" events-none");
-                        return header.show?
-                            <GridHeader key={header.key} header={header} rowClass={rowClass} handleSort={handleSort} sortCol={sortCol} sortOrderAsc={sortOrderAsc}></GridHeader>:"";
-                    })}
-                </div>
+                <HeaderProvider value={headerList}>
+                    <div className="table-header table-row">
+                        {
+                            rowSelection && 
+                            (<div className="table-cell chkCol">
+                                <input type="checkbox" className="" checked={selectAll} onChange={(e)=>{handleRowSelection(e)}}/>
+                            </div> )
+                        }
+                        <GridHeader handleSort={handleSort} sortCol-={sortCol} sortOrderAsc={sortOrderAsc}></GridHeader>
+                    </div>
+                </HeaderProvider>
                 </React.Fragment>
                 )}
+                <TabConfProvider value={renderList}>
                 {content && content.length && (
+                    <TabDataProvider value={content}>
                     <div className="table-body">
                         {content.map((data) =>{
-                            return (<GridRow data={data} key={data.id} renderList={renderList} rowSelection={rowSelection} handleRowSelection={handleRowSelection}></GridRow>);
+                           return ( 
+                                <GridRow key={data.id}
+                                    rowId={data.id}
+                                    rowSelection={rowSelection}
+                                    handleRowSelection={handleRowSelection}>
+                                </GridRow>                            
+                           );
                         })}
-                    </div>            
+                    </div>  
+                    </TabDataProvider>          
                 )}
+                </TabConfProvider>
             </div>
         </React.Fragment>
     );
