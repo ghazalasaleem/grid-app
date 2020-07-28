@@ -1,15 +1,15 @@
-import React, { createContext } from 'react'
+import React, { createContext, useContext } from 'react'
 
-const SortColCntxt = React.createContext("");
-const SortOrderAscCntxt = createContext(true);
+const GridContext = createContext({
+    sortCol: "",
+    sortOrderAsc: true,
+    activePage: 1,
+    rowsPerPage: 0,
+    totalRows: 0,
+    rowSelection: false
+});
 
-export const SortColProvider = SortColCntxt.Provider;
-export const SortColConsumer = SortColCntxt.Consumer;
+export const GridProvider = GridContext.Provider;
+export const GridConsumer = GridContext.Consumer;
 
-export const SortOrderAscProvider = SortOrderAscCntxt.Provider;
-export const SortOrderAscConsumer = SortOrderAscCntxt.Consumer;
-
-export {
-    SortColCntxt,
-    SortOrderAscCntxt
-};
+export default GridContext;

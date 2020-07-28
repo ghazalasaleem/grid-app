@@ -1,16 +1,13 @@
-import React, { useEffect, useState, createContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Grid.css'
 import GridRow from './GridRow';
 import GridHeader from './GridHeader';
-import {HeaderProvider} from './Context/HeaderContext';
-import {TabConfProvider} from './Context/TableConfContext';
-import {TabDataProvider} from './Context/TableDataContext';
-import {SortColProvider, SortOrderAscProvider} from './Context/GridContext';
-
+import {GridProvider} from './Context/GridContext';
+import GridFooter from './GridFooter';
 
 const Grid = props => {
 
-    const {configData, dataList, selectCallback, sortRowCallback} = props;
+    const {configData, dataList, selectCallback, sortRowCallback, paginationCallback} = props;
     const [renderList, setRenderList] = useState([]);
     const [headerList, setHeaderList] = useState([]);
     const [content, setContent] = useState([]);
@@ -19,29 +16,39 @@ const Grid = props => {
     const [rowSelection, setRowSelection] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows]  = useState([]);
+    const [activePage, setActivePage] = useState(1);
+    const [defaultSort, setDefaultSort] = useState({});
  
     useEffect(()=>{
         let headerL = [], renderL = [];
         if(configData.columns){
-        configData.columns.map((row)=>{
-            headerL.push({
-                name: row.name,
-                key: row.key,
-                sort: row.sort,
-                show: true
+            configData.columns.map((row)=>{
+                if(!defaultSort || !defaultSort.col){
+                    if(row.sort && row.sort.default && row.sort.active){
+                        setDefaultSort({col: row.key, order: row.sort.order})  
+                        setSortCol(row.key);
+                        setSortOrderAsc(row.sort.order === 'asc'?true:false);
+                    }
+                }
+                headerL.push({
+                    name: row.name,
+                    key: row.key,
+                    sort: row.sort,
+                    show: true
+                });
+                renderL.push({
+                    key: row.key,
+                    cell: row.cell
+                });
             });
-            renderL.push({
-                key: row.key,
-                cell: row.cell
-            });
-        });
-    }
+        }
+    
         let dl = dataList && dataList.length?[...dataList]:[];
         dl.map(obj=>{obj.selected = false});
         setHeaderList([...headerL]);
         setRenderList(renderL); 
         setContent([...dl]);
-        setRowSelection(configData.rowSelection);   
+        setRowSelection(configData.rowSelection);
     },[configData, dataList]);
 
     useEffect(()=>{
@@ -59,6 +66,10 @@ const Grid = props => {
     useEffect(()=>{
         setSelectedRows(getSelectedRows());
     },[content]);
+
+    useEffect(()=>{
+        if(paginationCallback) paginationCallback(activePage);
+    },[activePage]);
 
     const handleRowSelection = (e, id) =>{
         if(e && e.currentTarget){
@@ -93,6 +104,13 @@ const Grid = props => {
         }
     };
 
+    const pageChangeHandler = (pageNo) =>{
+        // console.log('selected pg no -', pageNo);
+        setActivePage(pageNo);
+        setSortCol(defaultSort.col);
+        setSortOrderAsc(defaultSort.order === 'asc'? true: false);
+    }
+
     const getSelectedRows = () =>{
         let selectedList = [];
         content.map(data=>{
@@ -104,12 +122,20 @@ const Grid = props => {
 
     return(
         <React.Fragment>
+            <GridProvider value={{
+                sortCol: sortCol,
+                sortOrderAsc: sortOrderAsc,
+                activePage: activePage,
+                rowsPerPage: configData.rowsPerPage,
+                totalRows: configData.totalRows,
+                rowSelection: rowSelection,
+                pageRange: configData.pageRange,
+                handleSort:handleSort,
+                handleRowSelection: handleRowSelection,
+                onPageChange: pageChangeHandler
+            }}>
             <div className="large-table table-container">
                 {headerList && headerList.length && (
-                <React.Fragment>
-                <HeaderProvider value={headerList}>
-                <SortColProvider value={sortCol}>
-                <SortOrderAscProvider value={sortOrderAsc}>
                     <div className="table-header table-row">
                         {
                             rowSelection && 
@@ -117,31 +143,23 @@ const Grid = props => {
                                 <input type="checkbox" className="" checked={selectAll} onChange={(e)=>{handleRowSelection(e)}}/>
                             </div> )
                         }
-                        <GridHeader handleSort={handleSort}></GridHeader>
+                        <GridHeader headerList={headerList}></GridHeader>
                     </div>
-                </SortOrderAscProvider>
-                </SortColProvider>
-                </HeaderProvider>
-                </React.Fragment>
                 )}
-                <TabConfProvider value={renderList}>
                 {content && content.length && (
-                    <TabDataProvider value={content}>
                     <div className="table-body">
                         {content.map((data) =>{
                            return ( 
-                                <GridRow key={data.id}
-                                    rowId={data.id}
-                                    rowSelection={rowSelection}
-                                    handleRowSelection={handleRowSelection}>
-                                </GridRow>                            
+                                <GridRow data={data} key={data.id} renderList={renderList}></GridRow>                            
                            );
                         })}
-                    </div>  
-                    </TabDataProvider>          
+                    </div>        
                 )}
-                </TabConfProvider>
+                {configData.pagination && (
+                    <GridFooter></GridFooter>
+                )}                
             </div>
+            </GridProvider>
         </React.Fragment>
     );
 }

@@ -4,7 +4,7 @@ import './index.css';
 import Dashboard from './Components/Dashboard/Dashboard';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import App from './App';
+// import "bootstrap/scss/bootstrap.scss";
 
 ReactDOM.render(
   <React.StrictMode>

@@ -1,25 +1,23 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, {useContext } from 'react';
 import GridCell from './GridCell';
-import TabDataContext from './Context/TableDataContext';
-import TabConfContext from './Context/TableConfContext';
+import GridContext from './Context/GridContext';
 
  const GridRow = props =>{
 
-    const {rowId, rowSelection, handleRowSelection} = props;
-    const dataL = useContext(TabDataContext);
-    const data =dataL.find(row => row.id === rowId);
-    const renderList = useContext(TabConfContext);
+    const {data, renderList} = props;
+    const gridCntxt = useContext(GridContext);
+    const {rowSelection, handleRowSelection} = gridCntxt;
 
     return (
         <div className={data.selected?"table-row selected":"table-row"} key={data.id} data-id={data.id}>
             {rowSelection && 
                 (<div data-id={data.id} className="table-cell chkCol">
                     <input type="checkbox" checked={data.selected} onChange={e=>handleRowSelection(e,data.id)}/>
-                </div> )
-            }                      
+                </div> )}
+                                      
             {renderList && renderList.length && 
                 renderList.map(renderer =>{
-                    return <GridCell key={data.id+renderer.key} rowId={rowId} cellData={renderer}></GridCell>;
+                    return <GridCell key={data.id+renderer.key} cellData={renderer} data={data}></GridCell>;
                 })
             }
         </div>

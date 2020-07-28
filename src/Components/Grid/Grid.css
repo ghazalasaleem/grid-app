@@ -5,10 +5,15 @@
     box-shadow: 2px 2px 3px gainsboro;
     color: #5c6475;
 }
-.table-header{
+.table-header, .table-footer{
     background-color: #fcfcfc;
     /* text-align: center; */
 }
+
+.table-footer .pagination {
+    margin-bottom: 4px;
+}
+
 .grid-border{
     border: 1px solid #edf3f5;
 }

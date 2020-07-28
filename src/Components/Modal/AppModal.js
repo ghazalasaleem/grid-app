@@ -2,12 +2,12 @@
 import React, { useState } from 'react';
 import {Modal, Button} from 'react-bootstrap';
 
-const AppModal = props =>{
+const AppModal = React.forwardRef((props, ref) =>{
 
     const [show, setShow] = useState(true);
     const {data} = props;
   const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
+
   return (
     <Modal show={show} onHide={handleClose}>
     <Modal.Header closeButton>
@@ -21,6 +21,6 @@ const AppModal = props =>{
     </Modal.Footer>
   </Modal>
   );
-}
+});
 
 export default AppModal;

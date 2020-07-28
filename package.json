@@ -12,6 +12,7 @@
     "react-bootstrap-multiselect": "^2.4.1",
     "react-dom": "^16.13.1",
     "react-icons": "^3.10.0",
+    "react-js-pagination": "^3.0.3",
     "react-multiselect-checkboxes": "^0.1.1",
     "react-scripts": "3.4.1"
   },

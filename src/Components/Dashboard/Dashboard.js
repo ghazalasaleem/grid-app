@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, createRef} from 'react';
 import Header from '../Header/Header';
 import Grid from '../Grid/Grid';
 import TableConfig from '../../Datastore/tableConfig';
@@ -15,13 +15,53 @@ const Dashboard = () => {
   const [TableConf, setTableConf] = useState([]);
   const [isInfoModalVisible, setIsInfoModalVisible] = useState([]);
   const [modalData, setModalData] = useState(null);
+  const [rowsPerPage, setRowsPerPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  // const [pagination, setPagination] = useState(false);
+  const dashRef = createRef();
 
   useEffect(()=>{
+    let request = {};
+    if(TableConfig.pagination){
+      request = {
+        start: 0,
+        count: TableConfig.rowsPerPage
+      };
+      setRowsPerPage(TableConfig.rowsPerPage);
+    }
+    VariableSrv.getData(request)
+    .then((response)=>{
+      if(response && response.totalRows && response.dataList && response.dataList.length){
+        mapResponse(response);
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    });    
+  },[]);
 
-    setGridData(VariableSrv.getData());
-    
+  // useEffect(()=>{
+  //   // console.log(GridData);
+  // },[GridData]);
+
+  const actionRender = (props) =>{
+    return (<React.Fragment>
+        <Delete dataList={props} onClick={handleRowDelete}></Delete>
+        <Copy dataList={props} onClick={handleRowCopy}></Copy>
+        <Info dataList={props} onClick={handleRowInfo}></Info>
+      </React.Fragment>);
+  };
+
+  const textBoxRenderer = (props) =>{
+    const {key, data} = props;
+    const {id} = data;
+    const value = data[key];
+
+    return (<input data-id={id} value={value} onChange={e => handleChange({event:e, ...props})}/>)
+  };
+
+  const mapResponse = response =>{
     const list = {...TableConfig};
-
     list.columns.map((row)=>{
       if(row.type === 'action'){
         row.cell = {
@@ -34,35 +74,23 @@ const Dashboard = () => {
         }
       }
     });
-    setTableConf({...TableConfig});
-  },[]);
-
-  useEffect(()=>{
-    console.log(GridData);
-  },[GridData]);
-
-  const actionRender = (props) =>{
-    const {data} = props;
-    return (<React.Fragment>
-        <Delete data={data} onClick={handleRowDelete}></Delete>
-        <Copy data={data} onClick={handleRowCopy}></Copy>
-        <Info data={data} onClick={handleRowInfo}></Info>
-      </React.Fragment>);
-  };
-
-  const textBoxRenderer = (props) =>{
-    const {key, data} = props;
-    const {id} = data;
-    const value = data[key];
-
-    return (<input data-id={id} value={value} onChange={e => handleChange({event:e, data:data, key:key})}/>)
+    setTableConf(Object.assign({...list},{totalRows: response.totalRows}));
+    setGridData([...response.dataList]);
   };
 
   const handleRowDelete =  args =>{
-    let {id} = args.data;
-    VariableSrv.deleteData({id})
+    let {id} = args.dataList.data;
+    let {activePage} = args.dataList
+    let request ={
+      id:id
+    };
+    if(TableConfig.pagination){
+      request.start = (activePage-1)* TableConfig.rowsPerPage;
+      request.count = TableConfig.rowsPerPage;
+    }
+    VariableSrv.deleteData(request)
       .then((response)=>{
-        setGridData([...response]);
+        mapResponse(response);
       })
       .catch(error => {
         console.log(error);
@@ -70,12 +98,20 @@ const Dashboard = () => {
   };
 
   const handleRowCopy = args =>{
-    const row = args.data;
-    const newRow = Object.assign({...row},{id:null,
-      variablename: row.variablename +'(1)'});
-    VariableSrv.addNewData({data:newRow})
+    const {data, activePage} = args.dataList;
+    const newRow = Object.assign({...data},{id:null,
+      variablename: data.variablename +'(1)'});
+    
+    let request ={
+      data:newRow
+    };
+    if(TableConfig.pagination){
+      request.start = (activePage-1)* TableConfig.rowsPerPage;
+      request.count = TableConfig.rowsPerPage;
+    }
+    VariableSrv.addNewData(request)
       .then((response)=>{
-        setGridData([...response]);
+        mapResponse(response);
       })
       .catch(error => {
         console.log(error);
@@ -83,48 +119,57 @@ const Dashboard = () => {
   };
   
   const handleRowInfo = args =>{
-    const {data} = args;  
+    const {data} = args.dataList;  
     setIsInfoModalVisible(true);
     setModalData(data);
   };
 
   const handleChange = args =>{
-
-    const {data, key, event} = args;
+    const {data, key, event, activePage} = args;
     const val = event.currentTarget.value;
     let rowData = {...data};
     rowData[key] = val;
-    VariableSrv.updateData({data:rowData})
+
+    let request ={
+      data: rowData
+    };
+    if(TableConfig.pagination){
+      request.start = (activePage-1)* TableConfig.rowsPerPage;
+      request.count = TableConfig.rowsPerPage;
+    }
+
+    VariableSrv.updateData(request)
       .then((response)=>{
-        setGridData([...response]);
+        mapResponse(response);
       })
       .catch(error => {
         console.log(error);
       });
-
   };
 
-  // sorting logic - either manual or api call.
-  const sortContentList = (list, key) =>{
-    return key?(list.sort((a,b) => {
-        let aVal = a[key].toLowerCase();
-        let bVal = b[key].toLowerCase();
-        if(aVal < bVal) return -1;
-        else if(aVal > bVal) return 1;
-        else return 0;
-
-    })):list;
-};
   const handleSort = args =>{
     const {key, order} = args;
     let tableContent = [...GridData];
-    tableContent = sortContentList(tableContent, key);
-    if(order === 'desc'){
-        tableContent.reverse();
-    }
+    VariableSrv.sortData({key:key , order: order, dataList: tableContent})
+    .then((response) =>{
+      setGridData([...response]);
+    })
+    .catch(error => {
+      console.log(error);
+    });
     setGridData([...tableContent]); 
   };
 
+  const handlePagination = pgNo => {
+    VariableSrv.getData({start: (pgNo-1)*rowsPerPage, count: rowsPerPage})
+    .then((response)=>{
+        setCurrentPage(pgNo);
+        setGridData([...response.dataList]);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
   const handleSelect = args =>{
     // console.log(JSON.stringify(args));
   };
@@ -138,10 +183,11 @@ const Dashboard = () => {
           dataList={GridData} 
           selectCallback= {handleSelect}
           sortRowCallback={handleSort}
+          paginationCallback={handlePagination}
           ></Grid>
       </div>
     {modalData && isInfoModalVisible && (
-      <AppModal data={modalData}></AppModal>   
+      <AppModal ref={dashRef} data={modalData}></AppModal>   
      )}
     </React.Fragment>
   );

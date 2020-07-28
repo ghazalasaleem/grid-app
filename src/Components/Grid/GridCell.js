@@ -1,19 +1,17 @@
 import React, { useContext } from 'react';
-import TabDataContext from './Context/TableDataContext';
-
+import GridContext from './Context/GridContext';
 const GridCell = props =>{
 
-    const {rowId, cellData} = props;
-    const dataL = useContext(TabDataContext);
-    const data =dataL.find(row => row.id === rowId);
-
+    const {data, cellData} = props;
     const {key, cell} = cellData;
     const {id} = data;
     const value = data[key];
+    const gridCntxt = useContext(GridContext);
+    const {activePage} = gridCntxt;
     let cellDOM;
     
     if(cell && typeof cell.renderer === "function"){
-        cellDOM= cell.renderer({data: data, key: key});
+        cellDOM= cell.renderer({data: data, key: key, activePage: activePage});
     }
     else{
         cellDOM=<label>{value}</label>;

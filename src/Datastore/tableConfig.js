@@ -1,12 +1,17 @@
 const TableConfig = 
 {
+  pagination: true,
+  totalRows: 0,
+  rowsPerPage: 3,
   rowSelection: true,
+  pageRange: 5,
   columns: [
     {
       name: 'Name',
       key: 'variablename',
       type: 'textBox',
       sort: {
+        default: true,
         active: true,
         order: 'asc',
       },
