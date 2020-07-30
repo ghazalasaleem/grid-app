@@ -1,9 +1,22 @@
 const TableData = [
     {
       id:123,
-      variablename: 'SessionId',
+      variablename: 'Session Id',
       variabletype: 'string',
-      variablevalue: "a12det54"
+      variablevalue: "a12det54",
+      childrenList: [
+        {
+          id:1231,
+          variablename: 'Session Id-1',
+          variabletype: 'string',
+          variablevalue: "e6rt47r3"
+        },
+        {
+          id:1232,
+          variablename: 'Session Id-2',
+          variabletype: 'string',
+          variablevalue: "y8uy7yhjk"
+        }]
     },
     {
       id:43,
@@ -45,7 +58,21 @@ const TableData = [
       id:131,
       variablename: 'IP',
       variabletype: 'string',
-      variablevalue: "172.203.121.22"
+      variablevalue: "172.203.121.22",
+      childrenList:[
+        {
+          id:1311,
+          variablename: 'IP-1',
+          variabletype: 'string',
+          variablevalue: "123.234.12.321"
+        },
+        {
+          id:1312,
+          variablename: 'IP-2',
+          variabletype: 'string',
+          variablevalue: "172.321.104.2"
+        }
+      ]
     },
     {
       id:132,

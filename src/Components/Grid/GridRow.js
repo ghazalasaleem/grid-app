@@ -9,6 +9,7 @@ import GridContext from './Context/GridContext';
     const {rowSelection, handleRowSelection} = gridCntxt;
 
     return (
+        !data.hidden && (
         <div className={data.selected?"table-row selected":"table-row"} key={data.id} data-id={data.id}>
             {rowSelection && 
                 (<div data-id={data.id} className="table-cell chkCol">
@@ -21,6 +22,7 @@ import GridContext from './Context/GridContext';
                 })
             }
         </div>
+        )
     );
  }
  export default GridRow;

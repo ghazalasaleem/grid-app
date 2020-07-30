@@ -23,11 +23,38 @@ class VariableSrv{
             reject("Error Occured");
             });
     }
+
+    setData = args =>{
+        return new Promise ((resolve, reject)=>{
+            const {start=0, count=0} = args;
+            if(args && args.count){
+                this.data.splice(start, count, ...args.list);
+            }
+            else{
+                this.data = [...args.list];
+            }
+            resolve(this.getData({start: start, count: count}));
+            reject("Error occured while setting data");
+        });
+    }
     
     deleteData = (props) =>{
         return new Promise((resolve, reject)=>{
-        const {start=0, count=0, id} = props;
-        this.data = this.data.filter((row) =>row.id !== id);
+        const {start=0, count=0, id, parentId} = props;
+        if(parentId){
+            let tempData = [...this.data];
+            tempData.map(row =>{
+                if(row.id === parentId){
+                    row.childrenList = [...row.childrenList.filter(child => child.id !== id)];
+                }
+            });
+
+            this.data = tempData;
+        }
+        else{
+            this.data = this.data.filter((row) =>row.id !== id);
+        }
+        
         resolve(this.getData({start: start, count: count}));
         reject("Error Occured while deletion");
         });
@@ -35,11 +62,21 @@ class VariableSrv{
     
     addNewData = (props) =>{
         return new Promise((resolve, reject)=>{
-            const {start=0, count=0, data} = props;
+            const {start=0, count=0, data, parentId} = props;
             let copyRow = Object.assign({...data},{
                 id: Math.floor(Math.random()*100)});
+            
             let dataList = [...this.data];
-            dataList.splice(start,0,copyRow);
+            if(parentId){
+                dataList.map(row =>{
+                    if(row.id === parentId){
+                        row.childrenList.splice(0,0,copyRow);
+                    }
+                });
+            }
+            else{
+                dataList.splice(start,0,copyRow);
+            }
             this.data = dataList;
             resolve(this.getData({start: start, count: count}));
             reject("Error Occured");
@@ -48,15 +85,31 @@ class VariableSrv{
 
     updateData = (args) =>{
         return new Promise((resolve, reject)=>{
-            const {start=0, count=0, data} = args;
+            const {start=0, count=0, data, parentId} = args;
             let dataList = [...this.data];
-            dataList.map(row =>{
-                if(row.id === data.id){
-                    row.variablevalue = data.variablevalue;
-                    row.variablename = data.variablename;
-                    row.variabletype = data.variabletype;
-                }
-            });
+
+            if(parentId){
+                dataList.map(row =>{
+                    if(row.id === parentId){
+                        row.childrenList.map(child=>{
+                            if(child.id === data.id){
+                                child.variablevalue = data.variablevalue;
+                                child.variablename = data.variablename;
+                                child.variabletype = data.variabletype;
+                            }
+                        });
+                    }
+                });
+            }
+            else{
+                dataList.map(row =>{
+                    if(row.id === data.id){
+                        row.variablevalue = data.variablevalue;
+                        row.variablename = data.variablename;
+                        row.variabletype = data.variabletype;
+                    }
+                });
+            }            
             this.data  = dataList;
             resolve(this.getData({start: start, count: count}));
             reject("Error Occured while updating");
