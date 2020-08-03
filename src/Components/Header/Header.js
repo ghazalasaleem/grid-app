@@ -1,10 +1,13 @@
 import React from 'react';
-import './Header.css';
+import './Header.scss';
 
-function Header(){
+const Header = props =>{
+
+    const {heading="Custom Grid"} = props;
     return (
         <div className="header">
-            <div className="pad-5">Custom Grid</div>
+            <div className="pad-5">{heading}</div>
+            {props.child}
         </div>
     );
 }

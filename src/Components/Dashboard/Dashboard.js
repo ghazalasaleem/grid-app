@@ -262,7 +262,7 @@ const Dashboard = () => {
   return (
     <React.Fragment>
       <div className="dashboard">
-        <Header></Header>
+        {/* <Header></Header> */}
         <Grid 
           configData={TableConf} 
           dataList={GridData} 

@@ -100,7 +100,9 @@ const Grid = props => {
                 sortOrder = !sortOrderAsc;
                 setSortOrderAsc(sortOrder);
             } 
-            sortRowCallback({key: sortKey, order: sortOrder?'asc':'desc'});      
+            if(sortRowCallback && typeof sortRowCallback === "function"){
+                sortRowCallback({key: sortKey, order: sortOrder?'asc':'desc'}); 
+            }                 
         }
     };
 
