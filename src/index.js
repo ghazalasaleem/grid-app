@@ -20,7 +20,7 @@ import { BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
 
 ReactDOM.render((
   <Router>
-  <App/>
+    <App/>
       <Route path = "/" render = {()=> <Redirect to="/home"></Redirect>}/>
       <Route path = "/home" component={Home}/>
       <Route path = "/dash" component = {Dashboard} />

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home Component renders 1`] = `
+<div
+  className="home-container"
+>
+  <h2>
+    Simple Application to learn React
+  </h2>
+</div>
+`;

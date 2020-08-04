@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Grid Component Grid renders 1`] = `
+<div
+  className="large-table table-container"
+>
+  0
+  0
+</div>
+`;

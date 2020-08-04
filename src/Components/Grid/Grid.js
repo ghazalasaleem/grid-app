@@ -18,6 +18,8 @@ const Grid = props => {
     const [selectedRows, setSelectedRows]  = useState([]);
     const [activePage, setActivePage] = useState(1);
     const [defaultSort, setDefaultSort] = useState({});
+
+    const {rowsPerPage=0, totalRows=0, pageRange=0, pagination=false} = configData?configData:{};
  
     useEffect(()=>{
         let headerL = [], renderL = [];
@@ -128,10 +130,10 @@ const Grid = props => {
                 sortCol: sortCol,
                 sortOrderAsc: sortOrderAsc,
                 activePage: activePage,
-                rowsPerPage: configData.rowsPerPage,
-                totalRows: configData.totalRows,
+                rowsPerPage: rowsPerPage,
+                totalRows: totalRows,
                 rowSelection: rowSelection,
-                pageRange: configData.pageRange,
+                pageRange: pageRange,
                 handleSort:handleSort,
                 handleRowSelection: handleRowSelection,
                 onPageChange: pageChangeHandler
@@ -157,7 +159,7 @@ const Grid = props => {
                         })}
                     </div>        
                 )}
-                {configData.pagination && (
+                {pagination && (
                     <GridFooter></GridFooter>
                 )}                
             </div>
