@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Dashboard from './Components/Dashboard/Dashboard';
 import Home from './Components/Home/Home';
+import MouseTracker from './Components/MouseTracker/MouseTracker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import { BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
@@ -24,6 +25,7 @@ ReactDOM.render((
       <Route path = "/" render = {()=> <Redirect to="/home"></Redirect>}/>
       <Route path = "/home" component={Home}/>
       <Route path = "/dash" component = {Dashboard} />
+      <Route path = '/mouseTracker' component = {MouseTracker} />
       <Route path = "/contact"/>
   </Router>
 ), document.getElementById('root'))

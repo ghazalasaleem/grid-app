@@ -10,6 +10,7 @@ const App = () => {
       <Header heading="Workspace" child={<ul className="topmenu">
         <li><Link to="/home">Home</Link></li>
         <li><Link to="/dash">Grid</Link></li>
+        <li><Link to="/mouseTracker">Render Props</Link></li>
       </ul>}></Header>
     </div>
   );

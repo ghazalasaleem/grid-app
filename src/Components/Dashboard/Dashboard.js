@@ -1,5 +1,4 @@
 import React, { useState, useEffect, createRef, useRef} from 'react';
-import Header from '../Header/Header';
 import Grid from '../Grid/Grid';
 import TableConfig from '../../Datastore/tableConfig';
 import VariableSrv from '../../Services/VariableSrv';
@@ -17,7 +16,6 @@ const Dashboard = () => {
   const [isInfoModalVisible, setIsInfoModalVisible] = useState([]);
   const [modalData, setModalData] = useState(null);
   const [rowsPerPage, setRowsPerPage] = useState(0);
-  // const [currentPage, setCurrentPage] = useState(1);
   
   const modalRef = createRef();
   const dataList = useRef([]);
@@ -262,7 +260,6 @@ const Dashboard = () => {
   return (
     <React.Fragment>
       <div className="dashboard">
-        {/* <Header></Header> */}
         <Grid 
           configData={TableConf} 
           dataList={GridData} 

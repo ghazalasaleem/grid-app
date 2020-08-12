@@ -20,5 +20,3 @@ const Home = () =>{
 }
 
 export default Home;
-
-{/* <button onClick={()=> setStop(!stop)}>Start/Stop</button> */}
