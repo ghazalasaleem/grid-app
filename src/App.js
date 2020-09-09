@@ -11,7 +11,10 @@ const App = () => {
         <li><Link to="/home">Home</Link></li>
         <li><Link to="/dash">Grid</Link></li>
         <li><Link to="/mouseTracker">Render Props</Link></li>
-      </ul>}></Header>
+        <li><Link to="/To DO">To Do (Redux)</Link></li>
+      </ul>}>
+
+      </Header>
     </div>
   );
 };

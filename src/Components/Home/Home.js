@@ -16,6 +16,7 @@ const Home = () =>{
         <div className="home-container">
             <h2 className="msg">Hi Human!!</h2>
             <div className="timer">Time: <span>{time}</span></div>
+            <div >{(typeof(Worker) !=="undefine")?"Your browser supports Web Worker's":""}</div>
         </div>);
 }
 
