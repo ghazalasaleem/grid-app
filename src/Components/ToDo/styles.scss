@@ -1,0 +1,70 @@
+.todoContainer{
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    .card{
+        padding: 15px;
+        border: 1px solid lightgray;
+        box-shadow: 0px 10px 35px gainsboro;
+        align-items: center;
+        width:500px;
+        h3{
+            margin: 10px;
+        }
+        .addSection{
+            padding-top: 20px;
+            input {
+                padding: 5px 10px;
+                width: 300px;
+                height: 38px;
+                background: #fff;
+                border: 0;
+                border-radius: 5px;
+                box-shadow: 0 10px 35px rgba(0,0,0,.1);
+                color: #6c757d;
+                font-size: 1rem;
+                height: 2rem;
+                outline: none;
+            }
+            
+        }
+        .listSection{
+            padding: 20px 0px 20px 45px;
+            margin-top: 20px;
+            align-self: flex-start;
+            ul{
+                list-style-type: none;
+            }
+            input[type=checkbox]{
+                margin-right: 7px;
+            }
+        }
+        button  {
+            border: 1px solid lightgrey;
+            width: 60px;
+            height: 30px;
+            margin-left: 20px;
+            &:focus {
+                border: 1px solid lightgrey;
+                outline: none;
+            }
+            &:hover{
+                color: white;
+                background-color: black;
+            }
+            &.disabled{
+                pointer-events: none;
+                color: lightgrey;
+            }
+        }
+        .listHeader {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .infoMsg{
+            font-size: 13px;
+        }       
+    }
+}

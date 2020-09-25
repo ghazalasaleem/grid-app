@@ -11,7 +11,7 @@ const App = () => {
         <li><Link to="/home">Home</Link></li>
         <li><Link to="/dash">Grid</Link></li>
         <li><Link to="/mouseTracker">Render Props</Link></li>
-        <li><Link to="/To DO">To Do (Redux)</Link></li>
+        <li><Link to="/todo">To Do (Redux)</Link></li>
       </ul>}>
 
       </Header>
